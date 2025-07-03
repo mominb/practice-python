@@ -1,0 +1,17 @@
+# Core dependencies
+inflect>=7.5.0
+
+# Development and testing tools
+ruff>=0.12.2
+
+# Testing utilities
+coverage>=7.3.0
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code quality and security
+bandit>=1.7.5
+
+# Development utilities
+pre-commit>=3.3.0
+ipython>=8.14.0
