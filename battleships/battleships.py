@@ -24,8 +24,8 @@ class Game:
 
     @staticmethod
     def _create_a_hidden_ship():
-        x = random.randint(2, Game.GRID_SIZE)
-        y = random.randint(1, Game.GRID_SIZE - 1)
+        x = random.randint(1, Game.GRID_SIZE)
+        y = random.randint(1, Game.GRID_SIZE)
 
         return (x, y)
 
@@ -63,6 +63,12 @@ class Game:
 
     def is_over(self):
         return self._tries == 0 or self._ships_remaining == 0
+
+    def reveal_locations(self, _):
+        if _ == "y":
+            for ship in self._ships:
+                (x, y) = ship
+                self.grid.update_cell(x, y, "X")
 
 
 class OutOfRangeError(Exception):

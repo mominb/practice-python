@@ -13,11 +13,13 @@ def main():
 
         return x, y
 
-    def print_grid_and_intro(game: Game):
+    def print_intro():
         print("=" * 30)
         print("\033[35mWELCOME TO BATTLESHIPS\033[0m")
         print("\033[35mDestroy all three ships to win\033[0m")
         print("=" * 30)
+
+    def print_grid(game: Game):
         for X in range(game.GRID_SIZE + 1):
             print(X, end="   ")
         print()
@@ -33,7 +35,8 @@ def main():
         print("=" * 30)
 
     while not game.is_over():
-        print_grid_and_intro(game)
+        print_intro()
+        print_grid(game)
         try:
             game.attack(get_attack_from_user())
         except OutOfRangeError:
@@ -45,9 +48,18 @@ def main():
     if game.is_over():
         if game._tries == 0:
             print("Game Over!!! You lost")
+            print()
+            if input("Reveal ship locations? (y/n) ") == "y":
+                game.reveal_locations("y")
+                print()
+                print("=" * 30)
+                print_grid(game)
 
         else:
             print("Congrats!!! You Won.")
+            print()
+            print("=" * 30)
+            print_grid(game)
 
 
 if __name__ == "__main__":
