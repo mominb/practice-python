@@ -1,9 +1,6 @@
 # project dependencies
 PyGrids>=1.2.1
 
-# Development and testing tools
-ruff>=0.12.2
-
 # Testing utilities
 coverage>=7.3.0
 pytest>=7.4.0
