@@ -3,7 +3,7 @@ from enum import Enum
 
 
 class Game:
-    GRID_SIZE = 5
+    GRID_SIZE = random.randint(4, 6)
 
     def __init__(self) -> None:
         self._ships = Game._create_hidden_ships()

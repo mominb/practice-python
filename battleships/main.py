@@ -17,6 +17,7 @@ def main():
         print("=" * 30)
         print("\033[35mWELCOME TO BATTLESHIPS\033[0m")
         print("\033[35mDestroy all three ships to win\033[0m")
+        print(f"\033[35mDifficulty {game.GRID_SIZE - 3}\033[0m")
         print("=" * 30)
 
     def print_grid(game: Game):
