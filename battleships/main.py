@@ -7,9 +7,9 @@ def main():
     def get_attack_from_user():
         print("\033[34mEnter target position\033[0m ")
         print("_" * 30)
-        x = int(input("\033[34mX-coordinates? (1-5)\033[0m  "))
+        x = int(input("\033[34mX-coordinates? \033[0m  "))
         print("_" * 30)
-        y = int(input("\033[34mY-coordinates? (1-5)\033[0m  "))
+        y = int(input("\033[34mY-coordinates? \033[0m  "))
 
         return x, y
 
@@ -26,10 +26,12 @@ def main():
         for Y in range(1, Game.GRID_SIZE + 1):
             print(f"{Y}", end="   ")
             for cell in range(1, Game.GRID_SIZE + 1):
-                if game.grid.get_cell(cell, Y) == "∅":
+                if game.get_cell(cell, Y) == Game.State.EMPTY:
                     print(".", end="   ")
-                else:
-                    print(game.grid.get_cell(cell, Y), end="   ")
+                elif game.get_cell(cell, Y) == Game.State.MISS:
+                    print("O", end="   ")
+                elif game.get_cell(cell, Y) == Game.State.HIT:
+                    print("X", end="   ")
 
             print()
         print("=" * 30)
@@ -38,24 +40,19 @@ def main():
         print_intro()
         print_grid(game)
         try:
-            game.attack(get_attack_from_user())
+            game.is_attack_valid(get_attack_from_user())
         except OutOfRangeError:
             print("\033[31mYou have entered out of range\033[0m")
         except DuplicateError:
             print("\033[31mYou have already attacked here\033[0m")
         except ValueError:
-            print("\033[31mEnter numbers from 1-5 ONLY\033[0m")
+            print("\033[31mEnter numbers ONLY\033[0m")
     if game.is_over():
-        if game._tries == 0:
+        if len(game._attacked_positions) > 10:
             print("Game Over!!! You lost")
             print()
-            if input("Reveal ship locations? (y/n) ") == "y":
-                game.reveal_locations("y")
-                print()
-                print("=" * 30)
-                print_grid(game)
 
-        else:
+        elif game._hit_count == 3:
             print("Congrats!!! You Won.")
             print()
             print("=" * 30)
