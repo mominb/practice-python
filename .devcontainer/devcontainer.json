@@ -34,75 +34,8 @@
                 "yzhang.markdown-all-in-one",
                 "davidanson.vscode-markdownlint",
                 "github.copilot",
-                "github.copilot-chat",
-                "ms-vscode.vscode-css-peek"
-            ],
-            "settings": {
-                "python.defaultInterpreterPath": "/usr/local/bin/python",
-                "python.testing.unittestEnabled": true,
-                "python.testing.pytestEnabled": false,
-                "python.testing.unittestArgs": [
-                    "-v",
-                    "-s",
-                    "./",
-                    "-p",
-                    "test_*.py"
-                ],
-                "python.analysis.typeCheckingMode": "basic",
-                "python.analysis.autoImportCompletions": true,
-                "editor.formatOnSave": true,
-                "editor.codeActionsOnSave": {
-                    "source.organizeImports": "explicit",
-                    "source.fixAll.ruff": "explicit"
-                },
-                // Default Formatter Selection
-                "[python]": {
-                    "editor.defaultFormatter": "charliermarsh.ruff",
-                    "editor.formatOnSave": true,
-                    "editor.codeActionsOnSave": {
-                        "source.fixAll.ruff": "explicit",
-                        "source.organizeImports.ruff": "explicit"
-                    }
-                },
-                "files.exclude": {
-                    "**/__pycache__": true,
-                    "**/*.pyc": true,
-                    "**/.pytest_cache": true,
-                    "**/.coverage": true,
-                    "**/.ruff_cache": true
-                },
-                "terminal.integrated.defaultProfile.linux": "zsh",
-                // Git and GitHub Settings
-                "git.autofetch": true,
-                "git.enableSmartCommit": true,
-                "git.confirmSync": false,
-                "gitlens.codeLens.enabled": true,
-                // IntelliCode Settings
-                "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-                // Pylance Settings
-                "python.analysis.autoSearchPaths": true,
-                "python.analysis.extraPaths": [],
-                "python.analysis.diagnosticMode": "workspace",
-                // Ruff Settings
-                "ruff.enable": true,
-                "ruff.lint.enable": true,
-                "ruff.format.enable": true,
-                // Testing Settings
-                "python.testing.autoTestDiscoverOnSaveEnabled": true,
-                // Jupyter Settings
-                "jupyter.askForKernelRestart": false,
-                // UI and Theme Settings
-                "workbench.iconTheme": "material-icon-theme",
-                "workbench.colorTheme": "Default Dark Modern",
-                // Editor Settings
-                "editor.minimap.enabled": true,
-                "editor.bracketPairColorization.enabled": true,
-                "editor.guides.bracketPairs": "active",
-                "editor.suggestSelection": "first",
-                // Auto-completion Settings
-                "editor.tabCompletion": "on",
-                "editor.wordBasedSuggestions": "matchingDocuments"
-            }
+                "github.copilot-chat"
+            ]
         }
     },
     "containerEnv": {
@@ -114,11 +47,6 @@
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
     "mounts": [
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
-    ],
-    "forwardPorts": [
-        8000,
-        5000,
-        3000
     ],
     "remoteUser": "vscode",
     "shutdownAction": "stopContainer",
