@@ -49,12 +49,13 @@ def main():
         except ValueError:
             print("\033[31mEnter numbers ONLY\033[0m")
     if game.is_over():
-        if len(game._attacked_positions) > 10:
+        if len(game.attacked_positions) > 10:
+            print()
             print("Game Over!!! You lost")
             print()
 
-        elif game._hit_count == 3:
-            print("Congrats!!! You Won.")
+        elif game.hit_count == 3:
+            print("\033[32mCongrats!!! You Won.\033[0m")
             print()
             print("=" * 30)
             print_grid(game)
