@@ -25,7 +25,9 @@ else
     echo "ℹ️  No SSH directory found, skipping SSH setup"
 fi
 
-# Configure Git with user input
+# Configure Git
+git config pull.rebase true
+
 echo "🔧 Configuring Git..."
 current_name=$(git config --global user.name 2>/dev/null || echo "")
 current_email=$(git config --global user.email 2>/dev/null || echo "")

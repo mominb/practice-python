@@ -1,5 +1,6 @@
 # project dependencies
 PyGrids>=1.2.1
+colorama>=0.4.6
 
 # Testing utilities
 coverage>=7.3.0

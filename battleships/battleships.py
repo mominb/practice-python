@@ -1,74 +1,109 @@
 import random
 from enum import Enum
-from typing import List, Set, Tuple
+from typing import Set
+
+
+class CellState(Enum):
+    HIT = 1
+    MISS = 2
+    EMPTY = 3
+
+
+class Position:
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, Position) and self.x == other.x and self.y == other.y
+
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
+
+    def __repr__(self) -> str:
+        return f"Position({self.x}, {self.y})"
 
 
 class Game:
     GRID_SIZE = 5
+    NUM_SHIPS = 3
+    MAX_TURNS = 10
 
     def __init__(self) -> None:
-        self._ships: Set[Tuple[int, int]] = Game._create_hidden_ships()
-        self._attacked_positions: List[Tuple[int, int]] = []
-        self.hit_count: int = 0
+        self._ships: Set[Position] = self._generate_hidden_ships()
+        self._attacked_positions: Set[Position] = set()
 
     @staticmethod
-    def _create_hidden_ships() -> Set[Tuple[int, int]]:
-        ships: Set[Tuple[int, int]] = set()
+    def _is_attack_in_range(attack_pos: Position) -> bool:
+        return (
+            1 <= attack_pos.x <= Game.GRID_SIZE and 1 <= attack_pos.y <= Game.GRID_SIZE
+        )
 
-        while len(ships) != 3:
-            ships.add(Game._create_a_hidden_ship())
+    @staticmethod
+    def _generate_random_ship_position() -> Position:
+        x = random.randint(1, Game.GRID_SIZE)
+        y = random.randint(1, Game.GRID_SIZE)
+        return Position(x, y)
+
+    @staticmethod
+    def _generate_hidden_ships() -> Set[Position]:
+        ships: Set[Position] = set()
+
+        while len(ships) < Game.NUM_SHIPS:
+            ships.add(Game._generate_random_ship_position())
 
         return ships
 
-    def get_cell(self, x: int, y: int) -> "Game.State":
-        if (x, y) in self._attacked_positions and (x, y) in self._ships:
-            return Game.State.HIT
-        elif (x, y) in self._attacked_positions:
-            return Game.State.MISS
+    def _is_position_already_attacked(self, attack_pos: Position) -> bool:
+        return attack_pos in self._attacked_positions
+
+    def _count_hits(self) -> int:
+        return len(self._attacked_positions & self._ships)
+
+    def get_cell_state(self, position: Position) -> CellState:
+        if position in self._attacked_positions and position in self._ships:
+            return CellState.HIT
+        elif position in self._attacked_positions:
+            return CellState.MISS
         else:
-            return Game.State.EMPTY
+            return CellState.EMPTY
 
-    @staticmethod
-    def _create_a_hidden_ship() -> Tuple[int, int]:
-        x = random.randint(1, Game.GRID_SIZE)
-        y = random.randint(1, Game.GRID_SIZE)
+    def attack(self, attack_pos: Position) -> CellState:
+        if self.is_over:
+            raise Exception("Game is over, no more attacks allowed")
 
-        return (x, y)
+        if not self._is_attack_in_range(attack_pos):
+            raise OutOfRangeError(f"Attack position {attack_pos} is out of range")
 
-    def is_attack_repeated(self, attack_pos: Tuple[int, int]) -> bool:
-        if attack_pos in self._attacked_positions:
-            return True
-        else:
-            self._attacked_positions.append(attack_pos)
-            return False
+        if self._is_position_already_attacked(attack_pos):
+            raise DuplicateError(f"Position {attack_pos} has already been attacked")
 
-    @staticmethod
-    def is_attack_in_range(attack_pos: Tuple[int, int]) -> bool:
-        (x, y) = attack_pos
-        if x < 1 or x > Game.GRID_SIZE or y < 1 or y > Game.GRID_SIZE:
-            return False
-        else:
-            return True
+        self._attacked_positions.add(attack_pos)
 
-    def is_attack_valid(self, attack_pos: Tuple[int, int]) -> None:
-        if not Game.is_attack_in_range(attack_pos):
-            raise OutOfRangeError()
-        if self.is_attack_repeated(attack_pos):
-            raise DuplicateError()
         if attack_pos in self._ships:
-            self.hit_count += 1
-
-    def is_over(self) -> bool:
-        return len(self._attacked_positions) > 10 or self.hit_count == 3
+            return CellState.HIT
+        else:
+            return CellState.MISS
 
     @property
-    def attacked_positions(self) -> List[Tuple[int, int]]:
-        return self._attacked_positions
+    def attacked_positions(self) -> Set[Position]:
+        return self._attacked_positions.copy()
 
-    class State(Enum):
-        HIT = 1
-        MISS = 2
-        EMPTY = 3
+    @property
+    def won(self) -> bool:
+        return self._count_hits() >= self.NUM_SHIPS
+
+    @property
+    def lost(self) -> bool:
+        return len(self._attacked_positions) >= self.MAX_TURNS
+
+    @property
+    def remaining_turns(self) -> int:
+        return max(0, self.MAX_TURNS - len(self._attacked_positions))
+
+    @property
+    def is_over(self) -> bool:
+        return self.won or self.lost
 
 
 class OutOfRangeError(Exception):
