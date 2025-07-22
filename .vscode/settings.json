@@ -17,5 +17,7 @@
     },
     "gitlens.codeLens.enabled": true,
     "ruff.nativeServer": "on",
-    "python.analysis.typeCheckingMode": "strict"
+    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.reportMissingTypeStubs": "error",
+    "python.analysis.useLibraryCodeForTypes": true
 }

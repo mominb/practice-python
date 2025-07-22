@@ -8,6 +8,14 @@
             "module": "battleships.terminal",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Battleship:GUI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "battleships.gui",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
         }
     ]
 }

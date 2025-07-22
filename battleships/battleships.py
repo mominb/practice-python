@@ -57,9 +57,6 @@ class Game:
     def _is_position_already_attacked(self, attack_pos: Position) -> bool:
         return attack_pos in self._attacked_positions
 
-    def _count_hits(self) -> int:
-        return len(self._attacked_positions & self._ships)
-
     def get_cell_state(self, position: Position) -> CellState:
         if position in self._attacked_positions and position in self._ships:
             return CellState.HIT
@@ -86,12 +83,16 @@ class Game:
             return CellState.MISS
 
     @property
+    def hits_count(self) -> int:
+        return len(self._attacked_positions & self._ships)
+
+    @property
     def attacked_positions(self) -> Set[Position]:
         return self._attacked_positions.copy()
 
     @property
     def won(self) -> bool:
-        return self._count_hits() >= self.NUM_SHIPS
+        return self.hits_count >= self.NUM_SHIPS
 
     @property
     def lost(self) -> bool:
