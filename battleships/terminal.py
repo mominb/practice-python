@@ -1,6 +1,6 @@
 from colorama import Fore, Style, init
 
-from battleships import CellState, DuplicateError, Game, OutOfRangeError, Position
+from .battleships import CellState, DuplicateError, Game, OutOfRangeError, Position
 
 # Initialize colorama for cross-platform support
 init(autoreset=True)
